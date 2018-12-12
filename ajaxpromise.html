@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+	</head>
+	<body>
+		<button type="button" id="button">BUTTON</button>
+		<script type="text/javascript">
+			window.jQuery = function(){
+				var nodes = {}
+				nodes.addClass = function(){}
+				nodes.html = function(){}
+				return nodes
+			}
+			window.$ = window.jQuery
+			
+			window.Promise = function(fn){
+				return {
+					then : function(){}
+				}
+			}
+			
+			window.jQuery.ajax = function({url,method,body,successFn,failFn,headers}){
+				return new Promise(function(resolve,reject){
+					var request = new XMLHttpRequest()
+					request.open(method,url)
+					for (var key in headers) {
+						var value = headers[key]
+						request.setRequestHeader(key,value)
+					}
+					
+					request.onreadystatechange = function(){
+						if(request.readyState === 4){
+							if(request.status >= 200 && request.status < 300){
+								successFn.call(undefined,request.responseText)
+							}
+							else if(request.status >= 400){
+								failFn.call(undefined,request)
+							}
+						}
+					}
+					request.send(body)
+				})
+			}
+			
+			
+			button.addEventListener('click',function(e){
+				var Promise = window.jQuery.ajax({
+					url: '/frank',
+					method: 'get',
+					headers: {
+						'content-type': 'application/x-www.form.urlencoded',
+						'frank': '18'
+					},
+				})
+				
+				Promise.then(
+					function(text){
+						console.log(text)
+					},
+					function(request){
+						console.log(request)
+					}
+				)
+				
+				})
+		</script>
+	</body>
+</html>
