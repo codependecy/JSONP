@@ -8,64 +8,52 @@
 	<body>
 		<button type="button" id="button">BUTTON</button>
 		<script type="text/javascript">
-			window.jQuery = function(){
+			window.jQuery = function(nodeOrSelector) {
 				var nodes = {}
-				nodes.addClass = function(){}
-				nodes.html = function(){}
+				nodes.addClass = function() {}
+				nodes.html = function() {}
 				return nodes
 			}
 			window.$ = window.jQuery
-			
-			window.Promise = function(fn){
-				return {
-					then : function(){}
-				}
-			}
-			
-			window.jQuery.ajax = function({url,method,body,successFn,failFn,headers}){
-				return new Promise(function(resolve,reject){
+
+			window.jQuery.ajax = function({url,method,body,headers}) {
+				return new Promise(function(resolve, reject) {
 					var request = new XMLHttpRequest()
-					request.open(method,url)
+					request.open(method, url) // 配置request
 					for (var key in headers) {
 						var value = headers[key]
-						request.setRequestHeader(key,value)
+						request.setRequestHeader(key, value)
 					}
-					
-					request.onreadystatechange = function(){
-						if(request.readyState === 4){
-							if(request.status >= 200 && request.status < 300){
-								successFn.call(undefined,request.responseText)
-							}
-							else if(request.status >= 400){
-								failFn.call(undefined,request)
+					request.onreadystatechange = () => {
+						if (request.readyState === 4) {
+							if (request.status >= 200 && request.status < 300) {
+								resolve.call(undefined, request.responseText)
+							} else if (request.status >= 400) {
+								reject.call(undefined, request)
 							}
 						}
 					}
 					request.send(body)
 				})
 			}
-			
-			
-			button.addEventListener('click',function(e){
-				var Promise = window.jQuery.ajax({
+			button.addEventListener('click', (e) => {
+				window.jQuery.ajax({
 					url: '/frank',
 					method: 'get',
 					headers: {
-						'content-type': 'application/x-www.form.urlencoded',
+						'content-type': 'application/x-www-form-urlencoded',
 						'frank': '18'
-					},
-				})
-				
-				Promise.then(
-					function(text){
+					}
+				}).then(
+					(text) => {
 						console.log(text)
 					},
-					function(request){
+					(request) => {
 						console.log(request)
 					}
 				)
-				
-				})
+
+			})
 		</script>
 	</body>
 </html>

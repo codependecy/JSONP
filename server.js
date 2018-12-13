@@ -24,7 +24,7 @@ var server = http.createServer(function(request, response) {
 	console.log('方方说：含查询字符串的路径\n' + pathWithQuery)
 
 	if (path === '/') {
-		var string = fs.readFileSync('./ajaxpromise.html','utf8')
+		var string = fs.readFileSync('./jqueryAjax.html','utf8')
 		var amount = fs.readFileSync('./db','utf8')
 		// string = string.replace('&&&amount&&&',amount)
 		response.statusCode = 200
