@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>prototype</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function Human(options){
+				this.name = options.name
+				this.city = options.city
+// 				Human.city = options.city
+// 				Human.name = options.name
+				console.log(this.name)
+			}
+			Human.prototype.species = function(){
+				console.log('人族')
+			}
+			Human.prototype.walk = function(){
+				console.log('走')
+			}
+			Human.prototype.useTools = function(){
+				console.log('刀')
+			}
+			
+			var human = new Human({name: 'frank',city: 'hangzhou'})
+			var human2 = new Human({name: 'He',city: 'Wuhan'})
+		</script>
+	</body>
+</html>
